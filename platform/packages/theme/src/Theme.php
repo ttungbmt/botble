@@ -1020,7 +1020,7 @@ class Theme implements ThemeContract
         }
 
         $content->withHeaders([
-            'CMS-Version'       => '5.28.1',
+            'CMS-Version'       => '5.29.1',
             'Authorization-At'  => setting('membership_authorization_at'),
             'Activated-License' => !empty(setting('licensed_to')) ? 'Yes' : 'No',
         ]);

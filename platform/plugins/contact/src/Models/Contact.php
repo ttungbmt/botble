@@ -7,7 +7,7 @@ use Botble\Base\Traits\EnumCastable;
 use Botble\Contact\Enums\ContactStatusEnum;
 use Botble\Base\Models\BaseModel;
 use Exception;
-use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use RvMedia;
 
 class Contact extends BaseModel
@@ -22,8 +22,6 @@ class Contact extends BaseModel
     protected $table = 'contacts';
 
     /**
-     * The date fields for the model.clear
-     *
      * @var array
      */
     protected $dates = [
@@ -54,15 +52,15 @@ class Contact extends BaseModel
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function replies()
+    public function replies(): HasMany
     {
         return $this->hasMany(ContactReply::class);
     }
 
     /**
-     * @return UrlGenerator|string
+     * @return string
      */
     public function getAvatarUrlAttribute()
     {

@@ -81,6 +81,7 @@ class View extends IlluminateView implements ArrayAccess, Renderable
         $this->factory->incrementRender();
         $this->factory->callComposer($this);
         $contents = $this->getContents();
+
         if ($this->shortcode->getStrip()) {
             // strip content without shortcodes
             $contents = $this->shortcode->strip($contents);

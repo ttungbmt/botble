@@ -138,7 +138,7 @@ class User extends Authenticatable
     public function getPermissionsAttribute($value): array
     {
         try {
-            return json_decode($value, true) ?: [];
+            return json_decode($value ?: '', true) ?: [];
         } catch (Exception $exception) {
             return [];
         }

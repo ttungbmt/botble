@@ -22,10 +22,10 @@ class ContactSeeder extends BaseSeeder
 
         for ($i = 0; $i < 10; $i++) {
             Contact::create([
-                'name'    => $faker->name,
-                'email'   => $faker->safeEmail,
-                'phone'   => $faker->phoneNumber,
-                'address' => $faker->address,
+                'name'    => $faker->name(),
+                'email'   => $faker->safeEmail(),
+                'phone'   => $faker->phoneNumber(),
+                'address' => $faker->address(),
                 'subject' => $faker->text(50),
                 'content' => $faker->text(500),
                 'status'  => $faker->randomElement([ContactStatusEnum::READ, ContactStatusEnum::UNREAD]),

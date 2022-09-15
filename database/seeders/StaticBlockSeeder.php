@@ -25,7 +25,7 @@ class StaticBlockSeeder extends BaseSeeder
         LanguageMeta::where('reference_type', Block::class)->delete();
 
         for ($i = 0; $i < 5; $i++) {
-            $name = $faker->name;
+            $name = $faker->name();
 
             $block = Block::create([
                 'name'        => $name,

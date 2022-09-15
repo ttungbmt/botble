@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Exceptions\PostTooLargeException;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Session\TokenMismatchException;
-use League\OAuth2\Server\Exception\OAuthServerException;
 use Log;
 use RvMedia;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
@@ -135,9 +134,7 @@ class Handler extends ExceptionHandler
                     EmailHandler::sendErrorException($exception);
                 }
 
-                if (config('core.base.general.error_reporting.via_slack', false) &&
-                    !$exception instanceof OAuthServerException
-                ) {
+                if (config('core.base.general.error_reporting.via_slack', false)) {
                     Log::channel('slack')
                         ->critical(URL::full() . "\n" . $exception->getFile() . ':' . $exception->getLine() . "\n" . $exception->getMessage());
                 }
@@ -184,7 +181,11 @@ class Handler extends ExceptionHandler
         }
 
         if (class_exists('Theme')) {
-            return 'theme.' . Theme::getThemeName() . '::views.' . $code;
+            try {
+                return 'theme.' . Theme::getThemeName() . '::views.' . $code;
+            } catch (Throwable $throwable) {
+                return parent::getHttpExceptionView($exception);
+            }
         }
 
         return parent::getHttpExceptionView($exception);

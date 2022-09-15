@@ -33,7 +33,7 @@ class BreadcrumbsServiceProvider extends ServiceProvider
             $found = false;
             foreach ($arMenu as $menuCategory) {
                 if (($url == $menuCategory['url'] || (Str::contains(
-                    $menuCategory['url'],
+                    (string) $menuCategory['url'],
                     $prefix
                 ) && $prefix != '//')) && !empty($menuCategory['name'])) {
                     $found = true;
@@ -53,7 +53,7 @@ class BreadcrumbsServiceProvider extends ServiceProvider
 
                     foreach ($menuCategory['children'] as $menuItem) {
                         if (($url == $menuItem['url'] || (Str::contains(
-                            $menuItem['url'],
+                            (string) $menuItem['url'],
                             $prefix
                         ) && $prefix != '//')) && !empty($menuItem['name'])) {
                             $found = true;

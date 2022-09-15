@@ -27,7 +27,7 @@ class BaseTest extends TestCase
         $routeCollection = Route::getRoutes();
 
         foreach ($routeCollection as $value) {
-            if ($value->getActionMethod() !== 'GET') {
+            if (!in_array('GET', $value->methods())) {
                 continue;
             }
 
@@ -36,7 +36,18 @@ class BaseTest extends TestCase
             }
 
             $response = $this->call($value->getActionMethod(), $value->uri());
+
             $this->assertNotEquals(500, $response->status(), $value->getActionMethod() . ' ' . $value->uri());
         }
+
+        /*$slugs = Slug::distinct('reference_type')->get();
+
+        foreach ($slugs as $slug) {
+            $url = url($slug->prefix . '/' . $slug->key);
+
+            $response = $this->call('GET', $url);
+
+            $this->assertNotEquals(500, $response->status(), $url);
+        }*/
     }
 }

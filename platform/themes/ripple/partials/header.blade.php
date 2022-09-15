@@ -10,9 +10,9 @@
         <meta name="format-detection" content="telephone=no">
         <meta name="apple-mobile-web-app-capable" content="yes">
 
-        <!-- Fonts-->
-        <link href="https://fonts.googleapis.com/css?family={{ urlencode(theme_option('primary_font', 'Roboto')) }}" rel="stylesheet" type="text/css">
-        <!-- CSS Library-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family={{ urlencode(theme_option('primary_font', 'Roboto')) }}&display=swap" rel="stylesheet">
 
         <style>
             :root {
@@ -24,7 +24,6 @@
         @php
             Theme::asset()->container('footer')->remove('simple-slider-js');
         @endphp
-
 
         {!! Theme::header() !!}
 

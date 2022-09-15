@@ -327,7 +327,7 @@ class SettingController extends BaseController
             $username = end($buyer);
 
             return $response
-                ->setError(true)
+                ->setError()
                 ->setMessage('Envato username must not a URL. Please try with username "' . $username . '"!');
         }
 
@@ -351,7 +351,9 @@ class SettingController extends BaseController
 
             return $response->setMessage($result['message'])->setData($data);
         } catch (Throwable $exception) {
-            return $response->setError(true)->setMessage($exception->getMessage());
+            return $response
+                ->setError()
+                ->setMessage($exception->getMessage());
         }
     }
 
@@ -408,8 +410,7 @@ class SettingController extends BaseController
      */
     public function generateThumbnails(MediaFileInterface $fileRepository, BaseHttpResponse $response)
     {
-        @ini_set('max_execution_time', -1);
-        @ini_set('memory_limit', -1);
+        BaseHelper::maximumExecutionTimeAndMemoryLimit();
 
         $files = $fileRepository->allBy([], [], ['url', 'mime_type', 'folder_id']);
 

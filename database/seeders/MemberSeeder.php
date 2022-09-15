@@ -23,8 +23,8 @@ class MemberSeeder extends BaseSeeder
             'last_name'    => 'Smith',
             'email'        => 'john.smith@botble.com',
             'password'     => bcrypt('12345678'),
-            'dob'          => $faker->dateTime,
-            'phone'        => $faker->phoneNumber,
+            'dob'          => $faker->dateTime(),
+            'phone'        => $faker->phoneNumber(),
             'avatar_id'    => !$files[0]['error'] ? $files[0]['data']->id : 0,
             'description'  => $faker->realText(30),
             'confirmed_at' => now(),
@@ -32,12 +32,12 @@ class MemberSeeder extends BaseSeeder
 
         for ($i = 0; $i < 9; $i++) {
             Member::create([
-                'first_name'   => $faker->firstName,
-                'last_name'    => $faker->lastName,
-                'email'        => $faker->email,
+                'first_name'   => $faker->firstName(),
+                'last_name'    => $faker->lastName(),
+                'email'        => $faker->email(),
                 'password'     => bcrypt('12345678'),
-                'dob'          => $faker->dateTime,
-                'phone'        => $faker->phoneNumber,
+                'dob'          => $faker->dateTime(),
+                'phone'        => $faker->phoneNumber(),
                 'avatar_id'    => !$files[$i + 1]['error'] ? $files[$i + 1]['data']->id : 0,
                 'description'  => $faker->realText(30),
                 'confirmed_at' => now(),

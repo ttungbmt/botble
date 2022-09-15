@@ -37,12 +37,12 @@ class SiteMapManager
 
     /**
      * @param string $url
-     * @param string $date
+     * @param string|null $date
      * @param string $priority
      * @param string $sequence
      * @return $this
      */
-    public function add(string $url, string $date, string $priority = '1.0', string $sequence = 'daily'): self
+    public function add(string $url, ?string $date, string $priority = '1.0', string $sequence = 'daily'): self
     {
         if (!$this->siteMap->isCached()) {
             $this->siteMap->add($url, $date, $priority, $sequence);

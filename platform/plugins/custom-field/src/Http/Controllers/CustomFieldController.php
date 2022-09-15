@@ -51,7 +51,7 @@ class CustomFieldController extends BaseController
 
     /**
      * @param CustomFieldTable $dataTable
-     * @return Factory|View
+     * @return View
      * @throws Throwable
      */
     public function index(CustomFieldTable $dataTable)
@@ -139,6 +139,7 @@ class CustomFieldController extends BaseController
      * @param UpdateCustomFieldAction $action
      * @param BaseHttpResponse $response
      * @return BaseHttpResponse
+     * @throws Exception
      */
     public function update(
         $id,
@@ -150,7 +151,7 @@ class CustomFieldController extends BaseController
 
         $message = trans('core/base::notices.update_success_message');
         if ($result['error']) {
-            $response->setError(true);
+            $response->setError();
             $message = Arr::first($result['messages']);
         }
 
@@ -161,7 +162,6 @@ class CustomFieldController extends BaseController
 
     /**
      * @param int $id
-     * @param Request $request
      * @param BaseHttpResponse $response
      * @param DeleteCustomFieldAction $action
      * @return BaseHttpResponse
@@ -230,7 +230,7 @@ class CustomFieldController extends BaseController
      * @param ImportCustomFieldsAction $action
      * @param Request $request
      * @return array
-     * @throws Exception
+     * @throws Exception|Throwable
      */
     public function postImport(ImportCustomFieldsAction $action, Request $request)
     {

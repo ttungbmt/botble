@@ -182,9 +182,9 @@ class DashboardMenu
             }
 
             $link['active'] = $currentUrl == $link['url'] ||
-                            (Str::contains($link['url'], $routePrefix) &&
+                            (Str::contains((string) $link['url'], $routePrefix) &&
                                 !in_array($routePrefix, ['//', '/' . BaseHelper::getAdminPrefix()]) &&
-                                !Str::startsWith($link['url'], $protocol));
+                                !Str::startsWith((string) $link['url'], $protocol));
             if (!count($link['children'])) {
                 continue;
             }
@@ -197,7 +197,7 @@ class DashboardMenu
                     continue;
                 }
 
-                if ($currentUrl == $subMenu['url'] || Str::contains($currentUrl, $subMenu['url'])) {
+                if ($currentUrl == $subMenu['url'] || Str::contains($currentUrl, (string) $subMenu['url'])) {
                     $link['children'][$subKey]['active'] = true;
                     $link['active'] = true;
                 }

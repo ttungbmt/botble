@@ -4,6 +4,7 @@ namespace Botble\Base\Http\Controllers;
 
 use Arr;
 use Assets;
+use BaseHelper;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Base\Supports\Core;
 use Botble\Base\Supports\Helper;
@@ -198,8 +199,7 @@ class SystemController extends Controller
 
         header('Cache-Control: no-cache');
 
-        @ini_set('max_execution_time', -1);
-        @ini_set('memory_limit', -1);
+        BaseHelper::maximumExecutionTimeAndMemoryLimit();
 
         page_title()->setTitle(trans('core/base::system.updater'));
 

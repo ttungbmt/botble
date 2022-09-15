@@ -145,7 +145,7 @@ class Backup
             return false;
         }
 
-        $sql = $mysqlPath . 'mysqldump --user=' . $config['username'] . ' --password=' . $config['password'];
+        $sql = $mysqlPath . 'mysqldump --user="' . $config['username'] . '" --password="' . $config['password'] . '"';
 
         if (!in_array($config['host'], ['localhost', '127.0.0.1'])) {
             $sql .= ' --host=' . $config['host'];
@@ -232,7 +232,7 @@ class Backup
     {
         $file = $this->folder . DIRECTORY_SEPARATOR . 'storage-' . now()->format('Y-m-d-H-i-s') . '.zip';
 
-        @ini_set('max_execution_time', -1);
+        BaseHelper::maximumExecutionTimeAndMemoryLimit();
 
         if (class_exists('ZipArchive', false)) {
             $zip = new ZipArchive();

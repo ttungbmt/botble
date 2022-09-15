@@ -37,23 +37,27 @@ class ShortcodeCompiler
     /**
      * Enable
      *
-     * @return void
+     * @return $this
      * @since 2.1
      */
-    public function enable()
+    public function enable(): self
     {
         $this->enabled = true;
+
+        return $this;
     }
 
     /**
      * Disable
      *
-     * @return void
+     * @return $this
      * @since 2.1
      */
-    public function disable()
+    public function disable(): self
     {
         $this->enabled = false;
+
+        return $this;
     }
 
     /**
@@ -74,17 +78,20 @@ class ShortcodeCompiler
      * Compile the contents
      *
      * @param string $value
+     * @param bool $force
      * @return string
      * @since 2.1
      */
-    public function compile(string $value): string
+    public function compile(string $value, bool $force = false): string
     {
         // Only continue is shortcode have been registered
-        if (!$this->enabled || !$this->hasShortcodes()) {
+        if ((!$this->enabled || !$this->hasShortcodes()) && !$force) {
             return $value;
         }
+
         // Set empty result
         $result = '';
+
         // Here we will loop through all the tokens returned by the Zend lexer and
         // parse each one into the corresponding valid PHP. We will then have this
         // template as the correctly rendered PHP that can be rendered natively.

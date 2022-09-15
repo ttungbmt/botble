@@ -38,7 +38,12 @@ class ShortcodeServiceProvider extends ServiceProvider
             // for great testable, flexible composers for the application developer.
             $env->setContainer($app);
             $env->share('app', $app);
+
             return $env;
+        });
+
+        $this->app['blade.compiler']->directive('shortcode', function ($expression) {
+            return do_shortcode($expression);
         });
 
         $this->setNamespace('packages/shortcode')

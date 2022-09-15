@@ -3,6 +3,7 @@
 namespace Botble\Base\Providers;
 
 use App\Http\Middleware\VerifyCsrfToken;
+use BaseHelper;
 use Botble\Base\Exceptions\Handler;
 use Botble\Base\Http\Middleware\CoreMiddleware;
 use Botble\Base\Http\Middleware\DisableInDemoModeMiddleware;
@@ -97,6 +98,7 @@ class BaseServiceProvider extends ServiceProvider
             ],
             'datatables-buttons.pdf_generator' => 'excel',
             'excel.exports.csv.use_bom'        => true,
+            'dompdf.public_path'               => public_path(),
         ]);
 
         $this->app->bind('path.lang', function () {
@@ -173,13 +175,22 @@ class BaseServiceProvider extends ServiceProvider
         $this->configureIni();
 
         $config->set([
-            'purifier.settings' => array_merge(
+            'purifier.settings'                           => array_merge(
                 $config->get('purifier.settings'),
                 $config->get('core.base.general.purifier')
             ),
             'laravel-form-builder.defaults.wrapper_class' => 'form-group mb-3',
-            'database.connections.mysql.strict' => $config->get('core.base.general.db_strict_mode'),
+            'database.connections.mysql.strict'           => $config->get('core.base.general.db_strict_mode'),
         ]);
+
+        if (!$config->has('logging.channels.deprecations')) {
+            $config->set([
+                'logging.channels.deprecations' => [
+                    'driver' => 'single',
+                    'path'   => storage_path('logs/php-deprecation-warnings.log'),
+                ],
+            ]);
+        };
     }
 
     /**
@@ -249,7 +260,7 @@ class BaseServiceProvider extends ServiceProvider
         // Set memory limits.
         $limitInt = Helper::convertHrToBytes($memoryLimit);
         if (-1 !== $currentLimitInt && (-1 === $limitInt || $limitInt > $currentLimitInt)) {
-            @ini_set('memory_limit', $memoryLimit);
+            BaseHelper::iniSet('memory_limit', $memoryLimit);
         }
     }
 

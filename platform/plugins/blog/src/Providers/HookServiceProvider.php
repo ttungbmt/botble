@@ -74,16 +74,22 @@ class HookServiceProvider extends ServiceProvider
             add_action(BASE_ACTION_META_BOXES, [$this, 'addLanguageChooser'], 55, 2);
         }
 
-        if (defined('THEME_FRONT_HEADER')) {
+        if (defined('THEME_FRONT_HEADER') && setting('blog_post_schema_enabled', 1)) {
             add_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, function ($screen, $post) {
                 add_filter(THEME_FRONT_HEADER, function ($html) use ($post) {
                     if (get_class($post) != Post::class) {
                         return $html;
                     }
 
+                    $schemaType = setting('blog_post_schema_type', 'NewsArticle');
+
+                    if (!in_array($schemaType, ['NewsArticle', 'News', 'Article', 'BlogPosting'])) {
+                        $schemaType = 'NewsArticle';
+                    }
+
                     $schema = [
                         '@context'         => 'https://schema.org',
-                        '@type'            => 'NewsArticle',
+                        '@type'            => $schemaType,
                         'mainEntityOfPage' => [
                             '@type' => 'WebPage',
                             '@id'   => $post->url,
@@ -116,6 +122,8 @@ class HookServiceProvider extends ServiceProvider
                 }, 35);
             }, 35, 2);
         }
+
+        add_filter(BASE_FILTER_AFTER_SETTING_CONTENT, [$this, 'addSettings'], 193);
     }
 
     public function addThemeOptions()
@@ -298,5 +306,15 @@ class HookServiceProvider extends ServiceProvider
                 echo view('plugins/language::partials.admin-list-language-chooser', compact('route'))->render();
             }
         }
+    }
+
+    /**
+     * @param string|null $data
+     * @return string
+     * @throws Throwable
+     */
+    public function addSettings(?string $data = null): string
+    {
+        return $data . view('plugins/blog::settings')->render();
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Botble\Base\Supports;
 
-use Botble\Setting\Supports\SettingStore;
 use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
@@ -18,11 +17,6 @@ class MembershipAuthorization
     protected $client;
 
     /**
-     * @var SettingStore
-     */
-    protected $settingStore;
-
-    /**
      * @var Request
      */
     protected $request;
@@ -35,15 +29,12 @@ class MembershipAuthorization
     /**
      * MembershipAuthorization constructor.
      * @param Client $client
-     * @param SettingStore $settingStore
      * @param Request $request
      */
-    public function __construct(Client $client, SettingStore $settingStore, Request $request)
+    public function __construct(Client $client, Request $request)
     {
         $this->client = $client;
-        $this->settingStore = $settingStore;
         $this->request = $request;
-
         $this->url = rtrim(url('/'), '/');
     }
 
@@ -62,7 +53,8 @@ class MembershipAuthorization
                 return false;
             }
 
-            $authorizeDate = $this->settingStore->get('membership_authorization_at');
+            $authorizeDate = setting('membership_authorization_at');
+
             if (!$authorizeDate) {
                 return $this->processAuthorize();
             }
@@ -118,7 +110,7 @@ class MembershipAuthorization
             ],
         ]);
 
-        $this->settingStore
+        setting()
             ->set('membership_authorization_at', now()->toDateTimeString())
             ->save();
 

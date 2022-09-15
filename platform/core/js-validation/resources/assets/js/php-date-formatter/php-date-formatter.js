@@ -1,6 +1,6 @@
 /*!
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2020
- * @version 1.3.6
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
+ * @version 1.3.5
  *
  * Date formatter utility library that allows formatting date/time variables or Date objects using PHP DateTime format.
  * This library is a standalone javascript library and does not depend on other libraries or plugins like jQuery. The
@@ -48,17 +48,14 @@
                     return Math.floor(number % 100 / 10) === 1 || !suffixes[n] ? 'th' : suffixes[n];
                 }
             },
-            separators: /[ \-+\/.:@]/g,
+            separators: /[ \-+\/.T:@]/g,
             validParts: /[dDjlNSwzWFmMntLoYyaABgGhHisueTIOPZcrU]/g,
             intParts: /[djwNzmnyYhHgGis]/g,
             tzParts: /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
             tzClip: /[^-+\dA-Z]/g
         },
-        getInt: function (str, radix) {
-            return parseInt(str, (radix ? radix : 10));
-        },
         compare: function (str1, str2) {
-            return typeof (str1) === 'string' && typeof (str2) === 'string' && str1.toLowerCase() === str2.toLowerCase();
+            return typeof(str1) === 'string' && typeof(str2) === 'string' && str1.toLowerCase() === str2.toLowerCase();
         },
         lpad: function (value, length, chr) {
             var val = value.toString();
@@ -134,7 +131,7 @@
                 return vDate;
             }
             if (vFormat === 'U') {
-                i = $h.getInt(vDate);
+                i = parseInt(vDate);
                 return i ? new Date(i * 1000) : vDate;
             }
             switch (typeof vDate) {
@@ -147,7 +144,7 @@
             }
             vFormatParts = vFormat.match(self.validParts);
             if (!vFormatParts || vFormatParts.length === 0) {
-                throw new Error('Invalid date format definition.');
+                throw new Error("Invalid date format definition.");
             }
             for (i = vFormatParts.length - 1; i >= 0; i--) {
                 if (vFormatParts[i] === 'S') {
@@ -157,13 +154,13 @@
             vDateParts = vDate.replace(self.separators, '\0').split('\0');
             for (i = 0; i < vDateParts.length; i++) {
                 vDatePart = vDateParts[i];
-                iDatePart = $h.getInt(vDatePart);
+                iDatePart = parseInt(vDatePart);
                 switch (vFormatParts[i]) {
                     case 'y':
                     case 'Y':
                         if (iDatePart) {
                             len = vDatePart.length;
-                            out.year = len === 2 ? $h.getInt((iDatePart < 70 ? '20' : '19') + vDatePart) : iDatePart;
+                            out.year = len === 2 ? parseInt((iDatePart < 70 ? '20' : '19') + vDatePart) : iDatePart;
                         } else {
                             return null;
                         }
@@ -274,7 +271,7 @@
             for (i = 0; i < vParts.length; i++) {
                 vDigit = 2;
                 iPart = vParts[i];
-                iSec = $h.getInt(iPart.substr(0, 2));
+                iSec = parseInt(iPart.substr(0, 2));
                 if (isNaN(iSec)) {
                     return null;
                 }
@@ -297,7 +294,7 @@
                         vYear = vDate.getFullYear();
                         len = iPart.length;
                         vDigit = len < 4 ? len : 4;
-                        vYear = $h.getInt(len < 4 ? vYear.toString().substr(0, 4 - len) + iPart : iPart.substr(0, 4));
+                        vYear = parseInt(len < 4 ? vYear.toString().substr(0, 4 - len) + iPart : iPart.substr(0, 4));
                         if (!vYear) {
                             return null;
                         }
@@ -581,7 +578,7 @@
                  * @return {string}
                  */
                 T: function () {
-                    var str = (String(vDate).match(self.tzParts) || ['']).pop().replace(self.tzClip, '');
+                    var str = (String(vDate).match(self.tzParts) || [""]).pop().replace(self.tzClip, "");
                     return str || 'UTC';
                 },
                 /**
@@ -640,7 +637,7 @@
                     }
                     str = self.parseFormat(vChar, vDate);
                     if (i !== (len - 1) && self.intParts.test(vChar) && vFormat.charAt(i + 1) === 'S') {
-                        n = $h.getInt(str) || 0;
+                        n = parseInt(str) || 0;
                         str += self.dateSettings.ordinal(n);
                     }
                     vDateStr += str;

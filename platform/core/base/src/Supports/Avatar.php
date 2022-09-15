@@ -74,7 +74,7 @@ class Avatar
     /**
      * @var int
      */
-    protected $borderSize = 1;
+    protected $borderSize = 0;
 
     /**
      * @var string
@@ -369,8 +369,8 @@ class Avatar
     {
         $this->image->circle(
             $this->width - $this->borderSize,
-            $this->width / 2,
-            $this->height / 2,
+            intval($this->width / 2),
+            intval($this->height / 2),
             function (AbstractShape $draw) {
                 $draw->background($this->background);
                 $draw->border($this->borderSize, $this->getBorderColor());

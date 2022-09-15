@@ -3,6 +3,7 @@
 namespace Botble\Shortcode;
 
 use Botble\Shortcode\Compilers\ShortcodeCompiler;
+use Illuminate\Support\HtmlString;
 
 class Shortcode
 {
@@ -71,20 +72,15 @@ class Shortcode
      * Compile the given string
      *
      * @param string $value
-     * @return string
+     * @param bool $force
+     * @return HtmlString
      * @since 2.1
      */
-    public function compile(string $value): string
+    public function compile(string $value, bool $force = false): HtmlString
     {
-        // Always enable when we call the compile method directly
-        $this->enable();
+        $html = $this->compiler->compile($value, $force);
 
-        // return compiled contents
-        $html = $this->compiler->compile($value);
-
-        $this->disable();
-
-        return $html;
+        return new HtmlString($html);
     }
 
     /**

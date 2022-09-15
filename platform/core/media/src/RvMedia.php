@@ -649,7 +649,7 @@ class RvMedia
             return false;
         }
 
-        $folderIds = json_decode(setting('media_folders_can_add_watermark'), true);
+        $folderIds = json_decode(setting('media_folders_can_add_watermark', ''), true);
 
         if (empty($folderIds) || in_array($file->folder_id, $folderIds)) {
             $this->insertWatermark($file->url);

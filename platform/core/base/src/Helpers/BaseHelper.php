@@ -137,7 +137,7 @@ class BaseHelper
      */
     public function jsonEncodePrettify($data): string
     {
-        return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     /**
@@ -344,7 +344,7 @@ class BaseHelper
             return $dirty;
         }
 
-        return clean($dirty, $config);
+        return clean($dirty ?: '', $config);
     }
 
     /**
@@ -374,5 +374,34 @@ class BaseHelper
         $blue = $blue === null ? 0 : $blue;
 
         return compact('red', 'green', 'blue');
+    }
+
+    /**
+     * @param string $key
+     * @param $value
+     * @return $this
+     */
+    public function iniSet(string $key, $value): self
+    {
+        if (config('core.base.general.enable_ini_set', true)) {
+            try {
+                @ini_set($key, $value);
+            } catch (Exception $exception) {
+                return $this;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function maximumExecutionTimeAndMemoryLimit(): self
+    {
+        $this->iniSet('max_execution_time', -1);
+        $this->iniSet('memory_limit', -1);
+
+        return $this;
     }
 }

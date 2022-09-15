@@ -220,6 +220,7 @@ class BlogSeeder extends BaseSeeder
             $item['is_featured'] = $index < 6;
             $item['image'] = 'news/' . ($index + 1) . '.jpg';
             $item['description'] = $faker->text();
+            $item['content'] = str_replace(url(''), '', $item['content']);
 
             $post = Post::create($item);
 

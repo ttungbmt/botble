@@ -1,6 +1,7 @@
 <?php
 
 use Botble\Shortcode\Shortcode;
+use Illuminate\Support\HtmlString;
 
 if (!function_exists('shortcode')) {
     /**
@@ -29,11 +30,11 @@ if (!function_exists('add_shortcode')) {
 if (!function_exists('do_shortcode')) {
     /**
      * @param string $content
-     * @return string
+     * @return HtmlString
      */
-    function do_shortcode(string $content): string
+    function do_shortcode(string $content): HtmlString
     {
-        return shortcode()->compile($content);
+        return shortcode()->compile($content, true);
     }
 }
 

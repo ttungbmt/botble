@@ -49,6 +49,7 @@ class Language
         'by'     => 'Belarus',
         'bz'     => 'Belize',
         'ca'     => 'Canada',
+        'ca_ES'  => 'Catalonia',
         'cc'     => 'Cocos',
         'cd'     => 'Democratic Republic of the Congo',
         'cf'     => 'Central African Republic',

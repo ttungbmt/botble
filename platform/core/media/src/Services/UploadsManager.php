@@ -140,7 +140,7 @@ class UploadsManager
     public function saveFile(string $path, string $content, UploadedFile $file = null): bool
     {
         if (!RvMedia::isChunkUploadEnabled() || !$file) {
-            return Storage::put($this->cleanFolder($path), $content);
+            return Storage::put($this->cleanFolder($path), $content, ['visibility' => 'public']);
         }
 
         $currentChunksPath = RvMedia::getConfig('chunk.storage.chunks') . '/' . $file->getFilename();

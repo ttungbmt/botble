@@ -51,6 +51,7 @@ class Shortcode
     public function get(string $attribute, $fallback = null): string
     {
         $value = $this->{$attribute};
+
         if (!empty($value)) {
             return $attribute . '="' . $value . '"';
         } elseif (!empty($fallback)) {

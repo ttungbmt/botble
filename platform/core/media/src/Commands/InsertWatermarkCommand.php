@@ -87,7 +87,7 @@ class InsertWatermarkCommand extends Command
                     continue;
                 }
 
-                $folderIds = json_decode(setting('media_folders_can_add_watermark'), true);
+                $folderIds = json_decode(setting('media_folders_can_add_watermark', ''), true);
 
                 if (empty($folderIds) || in_array($file->folder_id, $folderIds)) {
                     RvMedia::insertWatermark($file->url);
